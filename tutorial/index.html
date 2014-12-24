@@ -8,7 +8,7 @@
     <h2>Introduction</h2>
 
     <p>
-        This tutorial will teach you how to trace messages inside Play applications.
+        This tutorial will show you how to trace messages inside Play applications.
         You will be guided through the tracing basics, sampling, trace logging and hierarchical calls.
         To see actual results you will need to have Zipkin installed. Don't worry,
         template contains script that will install and run it.
@@ -20,8 +20,9 @@
         It is an <a href="https://github.com/levkhomich/akka-tracing">Akka distributed tracing extension</a>
         which can be used as performance diagnostics and debugging tool. Distributed tracing approach of Zipkin
         (which it is based on) provides synergy with akka-remote and akka-cluster. Extension integrates with
-        Play framework (covered in this template), Spray toolkid and Finagle services (see
-        <a href="http://typesafe.com/activator/template/activator-akka-tracing" target="_blank">activator-akka-tracing</a>).
+        Play framework (covered in this template), Spray toolkit (see
+        <a href="http://typesafe.com/activator/template/activator-akka-tracing" target="_blank">activator-akka-tracing</a>)
+        and Finagle services.
     </p>
 
     <h3>Zipkin</h3>
@@ -78,6 +79,9 @@
         </li>
         <li>
             <code>sbt zipkin-stop</code> stops all running zipkin services.
+        </li>
+        <li>
+            <code>sbt zipkin-update</code> updates installed Zipkin.
         </li>
     </ul>
 
