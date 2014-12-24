@@ -4,12 +4,24 @@ import java.io.File
 
 import scala.sys.process._
 
-object Start extends App {
-  new File("./project/zipkin.sh").setExecutable(true)
-  "./project/zipkin.sh start".run()
+trait Zipkin {
+  private[this] val script = new File("./project/zipkin.sh")
+
+  def zipkin(cmd: String): ProcessBuilder = {
+    // activator drops execution flag
+    if (!script.canExecute) {
+      if (script.setExecutable(true))
+        throw new RuntimeException("can not set executable flag on " + script.getPath)
+    }
+    stringSeqToProcess(script.getPath :: cmd :: Nil)
+  }
+
 }
 
-object Stop extends App {
-  new File("./project/zipkin.sh").setExecutable(true)
-  "./project/zipkin.sh stop".!
+object Start extends App with Zipkin {
+  zipkin("start").run()
+}
+
+object Stop extends App with Zipkin {
+  zipkin("stop").!
 }
