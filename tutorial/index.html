@@ -58,18 +58,10 @@
     </p>
 
     <p>
-        Before running examples you will need to setup Zipkin server. If you do not have existing installation, you
-        can use provided script. First of all, you will need to add execution flag to <code>project/zipkin.sh</code>
-        because of changes made in Typesafe Activors's git checkout routine:
-
-<pre><code>cd [place where template was checked out]
-chmod +x project/zipkin.sh
-</code></pre>
-
-        Then you can run template's sbt tasks or use <code>"zipkin.Start"</code> main class from Activator's run menu.
-        On the first run, Zipkin will be cloned from it's official repo to project's dir, then, in 5-10 minutes, it will
-        be built and ready to go. After server launch, you can press <code>Stop</code> button in Activator's UI (Zipkin
-        will continue running in background).
+        Before running examples you will need to run Zipkin server. This can be achieved by running template's sbt tasks,
+        or by running <code>"zipkin.Start"</code> main class from Activator's run menu. On the first run, Zipkin will be
+        cloned from it's official repo to project's dir, then, in 5-10 minutes, it will be built and ready to go. After server
+        launch, you can press <code>Stop</code> button in Activator's UI (Zipkin will continue running in background).
     </p>
 
     <p>
