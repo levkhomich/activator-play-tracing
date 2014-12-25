@@ -10,7 +10,7 @@ object ProjectBuild extends Build {
       Seq (
         name := "activator-play-tracing",
         organization := "com.github.levkhomich",
-        version := "0.4-SNAPSHOT",
+        version := "0.4",
 
         homepage := Some(url("https://github.com/levkhomich/akka-tracing")),
         licenses := Seq("Apache Public License 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
@@ -22,14 +22,14 @@ object ProjectBuild extends Build {
 
         publish := (),
 
-        resolvers += "Maven Central Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+//        resolvers += "Maven Central Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
         libraryDependencies ++=
           Seq(
             play.PlayImport.ws,
             "org.webjars" % "bootstrap" % "2.3.1",
             "org.webjars" % "angularjs" % "1.2.16",
             "com.typesafe.akka" %% "akka-actor" % "2.3.8",
-            "com.github.levkhomich" %% "akka-tracing-play" % "0.4-SNAPSHOT" changing()
+            "com.github.levkhomich" %% "akka-tracing-play" % "0.4"
           ) ++ (
             if (scalaVersion.value == "2.11.4")
               Seq("org.scala-lang.modules" %% "scala-xml" % "1.0.3")
