@@ -1,19 +1,25 @@
 package controllers
 
-import scala.concurrent.Future
-import scala.concurrent.duration._
+import javax.inject.{Inject, Singleton}
 
+import actors.Parser
+import akka.actor._
 import akka.util.Timeout
-import com.github.levkhomich.akka.tracing.pattern.ask
+import akka.pattern.ask
+import com.github.levkhomich.akka.tracing.TracingSupport
 import com.github.levkhomich.akka.tracing.play.PlayControllerTracing
-import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json.{JsNumber, JsObject}
 import play.api.mvc.{Action, Controller}
-import play.api.Play.current
 
-import actors.{Parser, Actors}
+import scala.concurrent.duration._
+import scala.concurrent._
+import ExecutionContext.Implicits.global
 
-object Calculator extends Controller with PlayControllerTracing {
+@Singleton
+class Calculator @Inject()(system: ActorSystem)
+  extends Controller with PlayControllerTracing {
+
+  private lazy val parser = system.actorOf(Props[Parser], "parser")
 
   def index = Action {
     Ok(views.html.index("Calculator"))
@@ -26,7 +32,9 @@ object Calculator extends Controller with PlayControllerTracing {
       case Some(expr) =>
         // derived request (Parser.Expression) is marked as child of play request to trace
         // its processing as separate (child) span of original request
-        (Actors.parser ? Parser.Expression(expr).asChildOf(request)).mapTo[Double].map { resp =>
+        val clientRequest = new TracingSupport {}
+        trace.createChild(clientRequest, request)
+        (parser ? Parser.Expression(expr)).mapTo[Double].map { resp =>
           // play response shouldn't be marked by ".asResponseTo"
           Ok(JsObject(Seq(
             "result" -> JsNumber(resp)
@@ -37,4 +45,7 @@ object Calculator extends Controller with PlayControllerTracing {
     }
   }
 
+  override implicit def actorSystem: ActorSystem = {
+    system
+  }
 }
